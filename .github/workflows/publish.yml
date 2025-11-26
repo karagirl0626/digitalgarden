@@ -1,0 +1,19 @@
+name: Build and deploy Digital Garden
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - run: npm install -g digitalgarden
+      - run: digitalgarden publish --yes
+        env:
+          DIGITAL_GARDEN_TOKEN: ${{ secrets.DIGITAL_GARDEN_TOKEN }}
